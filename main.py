@@ -1,17 +1,25 @@
-import discord
+# main.py
 import os
+import discord
 from dotenv import load_dotenv
+
 load_dotenv()
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+TOKEN = os.getenv("DISCORD_TOKEN")
 
-bot = discord.Client()
+intents = discord.Intents.default()
+intents.message_content = True  # needed if you read message.content
 
-@bot.event
-async def on_message(message):
-	# CHECKS IF THE MESSAGE THAT WAS SENT IS EQUAL TO "HELLO".
-	if message.content == "hello":
-		# SENDS BACK A MESSAGE TO THE CHANNEL.
-		await message.channel.send("hey dirtbag")
+client = discord.Client(intents=intents)
 
-# EXECUTES THE BOT WITH THE SPECIFIED TOKEN. TOKEN HAS BEEN REMOVED AND USED JUST AS AN EXAMPLE.
-bot.run(DISCORD_TOKEN)
+@client.event
+async def on_ready():
+    print(f"Logged in as {client.user} (ID: {client.user.id})")
+
+@client.event
+async def on_message(message: discord.Message):
+    if message.author.bot:
+        return
+    if message.content.lower() == "hello":
+        await message.channel.send("hey dirtbag")
+
+client.run(TOKEN)
