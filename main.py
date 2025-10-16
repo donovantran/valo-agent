@@ -20,6 +20,7 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
     if message.content.lower() == "hello":
-        await message.channel.send("hey dirtbag")
+        await message.channel.send("kai is a good boy")
+        await message.channel.send("hi")
 
 client.run(TOKEN)
